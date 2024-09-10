@@ -28,6 +28,7 @@
                 :rules="authRules.password"
                 label="Password"
                 type="password"
+                class="mt-5"
                 required
               ></v-text-field>
             </v-card-text>
@@ -59,6 +60,8 @@
 import axiosServices from '@/axios'
 import { AUTH_RULES } from '@/validation/rules'
 import { defineComponent, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 export default defineComponent({
   setup() {
     const valid = ref(false)
@@ -69,16 +72,19 @@ export default defineComponent({
     })
 
     const authRules = AUTH_RULES
+    const router = useRouter()
 
     const submit = async () => {
       if (valid.value) {
         try {
-          // Replace with your API request logic
           const response = await axiosServices.post('/api/login', form)
-          // Handle successful login (e.g., redirect to dashboard)
-          // this.$router.push('/dashboard');
+          console.log(response, 'login response')
+          if (response.data.token) {
+            router.push('/dashboard')
+          } else {
+            errorMessage.value = 'Login failed. Please check your credentials.'
+          }
         } catch (error) {
-          console.log(error, 'in login')
           errorMessage.value = 'Login failed. Please check your credentials.'
         }
       }

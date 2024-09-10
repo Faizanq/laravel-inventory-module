@@ -1,22 +1,17 @@
-import LoginPage from '@/views/auth/Login.vue'; // Adjust the path as needed
-import { createRouter, createWebHistory } from 'vue-router';
-
+import LoginPage from '@/views/auth/Login.vue' // Adjust the path as needed
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      redirect:'/login',
+      redirect: '/login',
       component: () => import('../layouts/blank.vue'),
       children: [
         {
           path: 'login',
           component: () => LoginPage,
-        },
-        {
-          path: 'register',
-          component: () => import('../pages/register.vue'),
         },
         {
           path: '/:pathMatch(.*)*',
@@ -58,7 +53,6 @@ const router = createRouter({
         },
       ],
     },
-    
   ],
 })
 
