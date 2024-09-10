@@ -27,4 +27,27 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        $retval = parent::render($request, $exception);
+
+        if (!(strpos($request->getUri(), '/api'))) {
+            return $retval;
+        } else {
+            return response()->json(
+                [
+                    'success' => false,
+                    'exception' => 1,
+                    'message' => $exception->getMessage(),
+                    'errors' => $exception,
+                    'url' => $request->getUri(),
+                    'request' => json_encode(request()->all(), JSON_PRETTY_PRINT),
+                    'trace' => $exception->getTrace(),
+                ],
+                500
+            );
+        }
+        return $retval;
+    }
 }

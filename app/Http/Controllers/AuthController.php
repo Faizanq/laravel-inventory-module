@@ -14,7 +14,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
+            'password' => 'required|string',
         ]);
 
         $user = User::create([
@@ -22,9 +22,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        $token = $user->createToken('Personal Access Token')->accessToken;
-
+        $token = $user->createToken('Access Token')->accessToken;
         return $this->success(['token' => $token]);
     }
 
@@ -40,7 +38,7 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        $token = $user->createToken('Personal Access Token')->accessToken;
+        $token = $user->createToken('Personal Access Token')->plainTextToken;
 
         return $this->success(['token' => $token, 'user' => $user]);
     }
