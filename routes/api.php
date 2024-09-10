@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\WarehouseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +22,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     // Protected routes
+    Route::apiResource('/products', ProductController::class);
+    Route::apiResource('/warehouses', WarehouseController::class);
+    Route::apiResource('/suppliers', SupplierController::class);
 });
