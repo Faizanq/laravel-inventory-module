@@ -45,12 +45,12 @@
             </v-card-actions>
           </v-form>
 
-          <v-alert
+          <!-- <v-alert
             v-if="errorMessage"
             type="error"
             class="mt-3"
             >{{ errorMessage }}</v-alert
-          >
+          > -->
         </v-card>
       </v-col>
     </v-row>

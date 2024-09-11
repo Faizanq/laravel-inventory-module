@@ -8,7 +8,6 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 
 // Components
 import Footer from '@/layouts/components/Footer.vue'
-import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 
 // Banner
@@ -35,7 +34,7 @@ const upgradeBanner = computed(() => {
 
         <VSpacer />
 
-        <NavbarThemeSwitcher class="me-2" />
+        <!-- <NavbarThemeSwitcher class="me-2" /> -->
 
         <UserProfile />
       </div>

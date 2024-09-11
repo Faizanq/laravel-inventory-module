@@ -1,4 +1,24 @@
 import axios from 'axios'
+import toastr from 'toastr'
+import 'toastr/build/toastr.min.css'
+
+toastr.options = {
+  closeButton: true,
+  debug: false,
+  newestOnTop: true,
+  progressBar: true,
+  positionClass: 'toast-top-right',
+  preventDuplicates: false,
+  onclick: null,
+  showDuration: '300',
+  hideDuration: '1000',
+  timeOut: '5000',
+  extendedTimeOut: '1000',
+  showEasing: 'swing',
+  hideEasing: 'linear',
+  showMethod: 'fadeIn',
+  hideMethod: 'fadeOut',
+}
 
 // Create an axios instance
 const axiosServices = axios.create({
@@ -48,6 +68,10 @@ axiosServices.interceptors.response.use(
       localStorage.setItem('auth_token', newToken)
       axiosServices.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
     }
+    if (response.data?.success && response.data?.message) {
+      const message = response.data?.message
+      toastr.success(message, 'Success')
+    }
 
     return response.data
   },
@@ -61,6 +85,9 @@ axiosServices.interceptors.response.use(
       localStorage.removeItem('auth_token')
       // Redirect to login page or notify the user
     }
+
+    const message = error?.response?.data?.message || 'Internal Server Error!'
+    toastr.error(message, 'Error')
 
     return Promise.reject(error?.response?.data || error)
   },
