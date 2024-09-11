@@ -40,7 +40,6 @@ const salesByCountries = [
     sales: '42k',
     color: 'error',
   },
-
 ]
 </script>
 
@@ -105,8 +104,8 @@ const salesByCountries = [
   </VCard>
 </template>
 
-  <style lang="scss" scoped>
-  .card-list {
-    --v-card-list-gap: 1.5rem;
-  }
-  </style>
+<style lang="scss" scoped>
+.card-list {
+  --v-card-list-gap: 1.5rem;
+}
+</style>

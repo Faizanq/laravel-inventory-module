@@ -28,10 +28,11 @@ watch(
   () => route.path,
   () => {
     props.toggleIsOverlayNavActive(false)
-  })
+  },
+)
 
 const isVerticalNavScrolled = ref(false)
-const updateIsVerticalNavScrolled = (val: boolean) => isVerticalNavScrolled.value = val
+const updateIsVerticalNavScrolled = (val: boolean) => (isVerticalNavScrolled.value = val)
 
 const handleNavScroll = (evt: Event) => {
   isVerticalNavScrolled.value = (evt.target as HTMLElement).scrollTop > 0
@@ -45,8 +46,8 @@ const handleNavScroll = (evt: Event) => {
     class="layout-vertical-nav"
     :class="[
       {
-        'visible': isOverlayNavActive,
-        'scrolled': isVerticalNavScrolled,
+        visible: isOverlayNavActive,
+        scrolled: isVerticalNavScrolled,
         'overlay-nav': mdAndDown,
       },
     ]"
@@ -55,7 +56,7 @@ const handleNavScroll = (evt: Event) => {
     <div class="nav-header">
       <slot name="nav-header">
         <RouterLink
-          to="/"
+          to="/dashboard"
           class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
         >
           <div
@@ -63,9 +64,7 @@ const handleNavScroll = (evt: Event) => {
             v-html="logo"
           />
 
-          <h1 class="font-weight-medium leading-normal text-xl text-uppercase">
-            Inventory 
-          </h1>
+          <h1 class="font-weight-medium leading-normal text-xl text-uppercase">Inventory</h1>
         </RouterLink>
       </slot>
     </div>
@@ -91,8 +90,8 @@ const handleNavScroll = (evt: Event) => {
 </template>
 
 <style lang="scss">
-@use "@configured-variables" as variables;
-@use "@layouts/styles/mixins";
+@use '@configured-variables' as variables;
+@use '@layouts/styles/mixins';
 
 // 👉 Vertical Nav
 .layout-vertical-nav {
