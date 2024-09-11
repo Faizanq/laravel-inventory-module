@@ -16,16 +16,9 @@
                 required
               ></v-text-field>
               <v-text-field
-                v-model="form.sku"
-                :rules="rules.sku"
-                label="SKU"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.quantity_in_stock"
-                :rules="rules.quantity_in_stock"
-                label="Quantity in Stock"
-                type="number"
+                v-model="form.location"
+                :rules="rules.location"
+                label="Location"
                 required
               ></v-text-field>
               <v-btn
@@ -58,8 +51,8 @@ export default defineComponent({
       valid: false,
       form: {
         name: '',
-        sku: '',
-        quantity_in_stock: 0,
+        location: '',
+        // code: '',
       },
       rules: ADD_WAREHOUSE_RULES,
     }

@@ -1,35 +1,31 @@
-# vue
+# Project Setup
 
-This template should help get you started developing with Vue 3 in Vite.
+## Prerequisites
 
-## Recommended IDE Setup
+Before you begin, ensure you have the following installed:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur).
+- **Node.js** version 18.x
+- **PHP** version 8.1
+- **Composer** (Dependency Manager for PHP)
 
-## Type Support for `.vue` Imports in TS
+## Setup Instructions
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates.
-
-However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can run `Volar: Switch TS Plugin on/off` from VSCode command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
+git clone https://your-repository-link.git
+cd your-repository-name
+composer install
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
+cp .env.example .env
+php artisan key:generate
+php artisan passport:install
+php artisan optimize
+php artisan migrate
+php artisan db:seed
+php artisan serve
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## Admin Credential
+Email: admin@test.com
+Password: 123123
 
-```sh
-npm run build
-```

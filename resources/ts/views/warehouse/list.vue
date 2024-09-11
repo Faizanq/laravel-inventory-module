@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row class="d-flex justify-space-between align-center">
-      <h2>Product List</h2>
+      <h2>Warehouse List</h2>
       <v-btn
         @click="navigateToProductForm"
         color="primary"
-        >Add Product</v-btn
+        >Add Warehouse</v-btn
       >
     </v-row>
 
@@ -14,7 +14,7 @@
       <thead>
         <tr>
           <th class="text-left">Name</th>
-          <th class="text-left">Qty</th>
+          <th class="text-left">Location</th>
           <th class="text-left">Actions</th>
         </tr>
       </thead>
@@ -24,7 +24,7 @@
           :key="item.id"
         >
           <td>{{ item.name }}</td>
-          <td>{{ item.qty }}</td>
+          <td>{{ item.location }}</td>
           <td>
             <v-btn
               icon
@@ -48,7 +48,7 @@ import { useRouter } from 'vue-router'
 const warehouses = ref([])
 const router = useRouter()
 
-// Fetch product data from API
+// Fetch warehouse data from API
 const fetchwarehouses = async () => {
   try {
     const response = await axiosServices.get('/api/warehouses')
@@ -63,7 +63,7 @@ const navigateToProductForm = () => {
   router.push('/warehouses/new')
 }
 
-// Remove product by index
+// Remove warehouse by index
 const removeProduct = (index: Number) => {
   //   warehouses.value.splice(index, 1)
 }

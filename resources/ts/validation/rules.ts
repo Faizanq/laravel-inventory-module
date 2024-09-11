@@ -23,14 +23,19 @@ export const ADD_PRODUCT_RULES = {
 
 export const ADD_WAREHOUSE_RULES = {
   name: [
-    (v: string) => !!v || 'Product Name is required',
+    (v: string) => !!v || 'Warehouse Name is required',
+    // (v: string) => (v && v.length <= 5) || 'Product Name must be less than 100 characters',
+  ],
+  location: [
+    (v: string) => !!v || 'Location Name is required',
     // (v: string) => (v && v.length <= 5) || 'Product Name must be less than 100 characters',
   ],
 }
 
 export const ADD_SUPPLIER_RULES = {
   name: [
-    (v: string) => !!v || 'Product Name is required',
+    (v: string) => !!v || 'Supplier Name is required',
     // (v: string) => (v && v.length <= 5) || 'Product Name must be less than 100 characters',
   ],
+  email: [(v: string) => !!v || 'Email is required', (v: string) => /.+@.+\..+/.test(v) || 'Email must be valid'],
 }

@@ -49,38 +49,32 @@
 <script lang="ts">
 import axiosServices from '@/axios'
 import { ADD_PRODUCT_RULES } from '@/validation/rules'
-import { defineComponent, nextTick, ref } from 'vue'
+import { defineComponent, nextTick, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  data() {
-    return {
-      valid: false,
-      form: {
-        name: '',
-        sku: '',
-        quantity_in_stock: 0,
-      },
-      rules: ADD_PRODUCT_RULES,
-    }
-  },
   setup() {
     const router = useRouter()
-    const formRef = ref(null)
-
+    const formRef = ref(null) // Assuming you have a form ref
+    const form = reactive({
+      name: '',
+      price: 0,
+      // Add other form fields
+    })
+    const rules = ADD_PRODUCT_RULES
     const submit = async () => {
       await nextTick()
 
       if (formRef.value) {
         const isValid = await formRef.value.validate()
-
-        if (isValid) {
+        debugger
+        if (isValid && isValid.valid) {
           try {
-            const response = await axiosServices.post('/api/products', formRef.value.form)
+            const response = await axiosServices.post('/api/products', form)
             console.log('Product saved:', response.data)
             router.push('/products')
           } catch (error) {
-            console.error('Error saving product:', error)
+            console.log('Error saving product:', error)
           }
         } else {
           console.log('Form is invalid')
@@ -94,6 +88,8 @@ export default defineComponent({
 
     return {
       formRef,
+      form,
+      rules,
       submit,
       cancel,
     }

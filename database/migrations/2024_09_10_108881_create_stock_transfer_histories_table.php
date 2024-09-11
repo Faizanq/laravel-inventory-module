@@ -11,9 +11,9 @@ class CreateStockTransferHistoriesTable extends Migration
         if (!Schema::hasTable('stock_transfer_history')) {
             Schema::create('stock_transfer_history', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('product_id')->constrained('products');
-                $table->foreignId('warehouse_id')->nullable()->constrained('warehouses');
-                $table->foreignId('supplier_id')->nullable()->constrained('suppliers');
+                $table->foreignId('product_id');
+                $table->foreignId('warehouse_id')->nullable();
+                $table->foreignId('supplier_id')->nullable();
                 $table->integer('quantity_change');
                 $table->enum('type', ['STOCK_IN', 'STOCK_OUT']);
                 $table->timestamps();

@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-row class="d-flex justify-space-between align-center">
-      <h2>Product List</h2>
+      <h2>Supplier List</h2>
       <v-btn
-        @click="navigateToProductForm"
+        @click="navigateToSupplierForm"
         color="primary"
-        >Add Product</v-btn
+        >Add Supplier</v-btn
       >
     </v-row>
 
@@ -14,21 +14,21 @@
       <thead>
         <tr>
           <th class="text-left">Name</th>
-          <th class="text-left">Qty</th>
+          <th class="text-left">Email</th>
           <th class="text-left">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="(item, index) in products"
+          v-for="(item, index) in suppliers"
           :key="item.id"
         >
           <td>{{ item.name }}</td>
-          <td>{{ item.qty }}</td>
+          <td>{{ item.email }}</td>
           <td>
             <v-btn
               icon
-              @click="removeProduct(index)"
+              @click="removeSupplier(index)"
             >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
@@ -44,32 +44,32 @@ import axiosServices from '@/axios'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-// Reactive state for products
-const products = ref([])
+// Reactive state for suppliers
+const suppliers = ref([])
 const router = useRouter()
 
-// Fetch product data from API
-const fetchProducts = async () => {
+// Fetch supplier data from API
+const fetchsuppliers = async () => {
   try {
-    const response = await axiosServices.get('/api/products')
-    products.value = response.data
+    const response = await axiosServices.get('/api/suppliers')
+    suppliers.value = response.data
   } catch (error) {
-    console.error('Failed to fetch products:', error)
+    console.error('Failed to fetch suppliers:', error)
   }
 }
 
 // State and methods for dialog management
-const navigateToProductForm = () => {
-  router.push('/products/new')
+const navigateToSupplierForm = () => {
+  router.push('/suppliers/new')
 }
 
-// Remove product by index
-const removeProduct = (index: Number) => {
-  //   products.value.splice(index, 1)
+// Remove supplier by index
+const removeSupplier = (index: Number) => {
+  //   suppliers.value.splice(index, 1)
 }
 
 onMounted(() => {
-  fetchProducts()
+  fetchsuppliers()
 })
 </script>
 
