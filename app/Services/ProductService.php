@@ -50,7 +50,7 @@ class ProductService
             }
             throw new \Exception('Product not found');
         } else {
-            return $this->model->forceCreate($this->formatParams($params));
+            $product = $this->model->forceCreate($this->formatParams($params));
         }
     }
 

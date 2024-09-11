@@ -19,7 +19,6 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        // $products = $this->service->getAllProducts($request->all())->paginate();
         return $this->service->getAllProducts($request->all())->paginate();
     }
 

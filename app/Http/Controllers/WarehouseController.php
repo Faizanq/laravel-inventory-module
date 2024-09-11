@@ -19,8 +19,7 @@ class WarehouseController extends Controller
 
     public function index(Request $request)
     {
-        $Warehouses = $this->service->getAllWarehouses($request->all())->paginate();
-        return $this->success($Warehouses, 'Warehouses retrieved successfully.');
+        return $this->service->getAllWarehouses($request->all())->paginate();
     }
 
     public function list(Request $request)

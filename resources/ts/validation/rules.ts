@@ -20,3 +20,17 @@ export const ADD_PRODUCT_RULES = {
     (v: number) => v >= 0 || 'Quantity in Stock must be a positive number',
   ],
 }
+
+export const ADD_WAREHOUSE_RULES = {
+  name: [
+    (v: string) => !!v || 'Product Name is required',
+    // (v: string) => (v && v.length <= 5) || 'Product Name must be less than 100 characters',
+  ],
+}
+
+export const ADD_SUPPLIER_RULES = {
+  name: [
+    (v: string) => !!v || 'Product Name is required',
+    // (v: string) => (v && v.length <= 5) || 'Product Name must be less than 100 characters',
+  ],
+}

@@ -30,6 +30,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+        dd($exception);
         $retval = parent::render($request, $exception);
 
         if (!(strpos($request->getUri(), '/api'))) {

@@ -1,30 +1,28 @@
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import laravel from 'laravel-vite-plugin'
 import { fileURLToPath } from 'node:url'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import vuetify from 'vite-plugin-vuetify'
-import laravel from 'laravel-vite-plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     laravel({
-  input: ['resources/ts/main.ts'],
-  refresh: true,
-}),
+      input: ['resources/ts/main.ts'],
+      refresh: true,
+    }),
     vue({
-  template: {
-      transformAssetUrls: {
+      template: {
+        transformAssetUrls: {
           base: null,
           includeAbsolute: false,
+        },
       },
-  },
-}),
+    }),
     vueJsx(),
-
-    // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
     vuetify({
       styles: {
         configFile: 'resources/styles/variables/_vuetify.scss',
@@ -50,7 +48,7 @@ export default defineConfig({
       '@styles': fileURLToPath(new URL('./resources/styles/', import.meta.url)),
       '@configured-variables': fileURLToPath(new URL('./resources/styles/variables/_template.scss', import.meta.url)),
       '@axios': fileURLToPath(new URL('./resources/ts/plugins/axios', import.meta.url)),
-      'apexcharts': fileURLToPath(new URL('node_modules/apexcharts-clevision', import.meta.url)),
+      apexcharts: fileURLToPath(new URL('node_modules/apexcharts-clevision', import.meta.url)),
     },
   },
   build: {
@@ -58,8 +56,16 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['vuetify'],
-    entries: [
-      './resources/ts/**/*.vue',
-    ],
+    entries: ['./resources/ts/**/*.vue'],
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000', // Update with your Laravel backend URL
+        changeOrigin: true,
+        secure: false,
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
   },
 })

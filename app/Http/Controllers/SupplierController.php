@@ -19,8 +19,7 @@ class SupplierController extends Controller
 
     public function index(Request $request)
     {
-        $Suppliers = $this->service->getAllSuppliers($request->all())->paginate();
-        return $this->success($Suppliers, 'Suppliers retrieved successfully.');
+        return $this->service->getAllSuppliers($request->all())->paginate();
     }
 
     public function list(Request $request)
