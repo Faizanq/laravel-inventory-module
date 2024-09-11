@@ -11,10 +11,10 @@ class CreateStockTransfersTable extends Migration
         if (!Schema::hasTable('stock_transfers')) {
             Schema::create('stock_transfers', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('product_id')->constrained('products');
-                $table->foreignId('from_supplier_id')->nullable()->constrained('suppliers');
-                $table->foreignId('from_warehouse_id')->nullable()->constrained('warehouses');
-                $table->foreignId('to_warehouse_id')->constrained('warehouses');
+                $table->foreignId('product_id');
+                $table->foreignId('from_supplier_id')->nullable();
+                $table->foreignId('from_warehouse_id')->nullable();
+                $table->foreignId('to_warehouse_id');
                 $table->integer('quantity');
                 $table->timestamp('transfer_date')->useCurrent();
                 $table->timestamps();

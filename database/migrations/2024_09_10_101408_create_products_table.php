@@ -14,7 +14,6 @@ class CreateProductsTable extends Migration
                 $table->string('name');
                 $table->string('sku')->unique();
                 $table->integer('quantity_in_stock')->default(0);
-                $table->foreignId('supplier_id')->constrained('suppliers');
                 $table->timestamps();
                 $table->softDeletes();
             });

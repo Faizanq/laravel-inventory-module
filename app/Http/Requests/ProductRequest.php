@@ -28,7 +28,6 @@ class ProductRequest extends FormRequest
             'name' => 'required|string|max:255',
             'sku' => 'required|string|max:255',
             'quantity_in_stock' => 'required|integer',
-            'supplier_id' => 'required|exists:suppliers,id',
         ];
 
         $id = $this->route('product'); // Get the product ID from the route

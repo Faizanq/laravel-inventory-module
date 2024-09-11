@@ -1,4 +1,6 @@
-import LoginPage from '@/views/auth/Login.vue' // Adjust the path as needed
+import LoginPage from '@/views/auth/Login.vue'
+import ProductList from '@/views/product/list.vue'
+import ProductForm from '@/views/product/form.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -28,8 +30,12 @@ const router = createRouter({
           component: () => import('../pages/dashboard.vue'),
         },
         {
-          path: 'typography',
-          component: () => import('../pages/typography.vue'),
+          path: 'products',
+          component: () => ProductList,
+        },
+        {
+          path: 'products/new',
+          component: () => ProductForm,
         },
       ],
     },

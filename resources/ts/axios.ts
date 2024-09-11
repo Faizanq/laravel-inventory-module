@@ -1,32 +1,59 @@
 import axios from 'axios'
 
-// Create an Axios instance
+// Create an axios instance
 const axiosServices = axios.create({
-  baseURL: 'http://127.0.0.1:8000', // Replace with your API base URL
-  withCredentials: true, // If you need to send cookies with requests
+  baseURL: 'http://127.0.0.1:8000', // Ensure you are using the correct base URL
+  withCredentials: false, // Set to false since we're using token-based auth
 })
 
-// Response Interceptor
+// Request interceptor to add the Authorization token
+axiosServices.interceptors.request.use(
+  config => {
+    // Show loader by setting a flag in localStorage
+    localStorage.setItem('loading', 'true')
+
+    // Get token from localStorage and set Authorization header
+    const token = localStorage.getItem('auth_token')
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+
+    return config
+  },
+  error => {
+    // Hide loader if there's an error
+    localStorage.removeItem('loading')
+    return Promise.reject(error)
+  },
+)
+
+// Response interceptor to hide the loader and handle errors
 axiosServices.interceptors.response.use(
   response => {
-    // Check if the "New-Token" header is present in the response
-    if (response.headers && response.headers['new-token']) {
-      // Get the new token value from the response header
+    // Hide loader when a response is received
+    localStorage.removeItem('loading')
+
+    // Optionally handle token refresh if returned in response
+    if (response.headers['new-token']) {
       const newToken = response.headers['new-token']
-
-      // Store the new token in localStorage
       localStorage.setItem('auth_token', newToken)
-
-      // Update the Axios default headers for authorization
       axiosServices.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
     }
 
-    // Return the response for further processing
     return response.data
   },
   error => {
-    // Handle errors by using a custom error handler or default error response
-    return Promise.reject(error.response?.data || error)
+    // Hide loader if there's an error
+    localStorage.removeItem('loading')
+
+    // Optionally handle token expiration or invalid token cases
+    if (error.response && error.response.status === 401) {
+      // Token has expired or is invalid, handle accordingly
+      localStorage.removeItem('auth_token')
+      // Redirect to login page or notify the user
+    }
+
+    return Promise.reject(error?.response?.data || errpr)
   },
 )
 

@@ -5,3 +5,18 @@ export const AUTH_RULES = {
     (v: string) => v.length >= 6 || 'Password must be at least 6 characters long',
   ],
 }
+
+export const ADD_PRODUCT_RULES = {
+  name: [
+    (v: string) => !!v || 'Product Name is required',
+    // (v: string) => (v && v.length <= 5) || 'Product Name must be less than 100 characters',
+  ],
+  sku: [
+    (v: string) => !!v || 'SKU is required',
+    // (v: string) => (v && v.length <= 20) || 'SKU must be less than 20 characters',
+  ],
+  quantity_in_stock: [
+    (v: number) => !!v || 'Quantity in Stock is required',
+    (v: number) => v >= 0 || 'Quantity in Stock must be a positive number',
+  ],
+}

@@ -11,8 +11,8 @@ class CreateMinStockLevelsTable extends Migration
         if (!Schema::hasTable('min_stock_levels')) {
             Schema::create('min_stock_levels', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('product_id')->constrained('products');
-                $table->foreignId('warehouse_id')->constrained('warehouses');
+                $table->foreignId('product_id');
+                $table->foreignId('warehouse_id');
                 $table->integer('min_stock');
                 $table->timestamps();
             });

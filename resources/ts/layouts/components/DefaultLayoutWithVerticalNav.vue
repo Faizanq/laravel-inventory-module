@@ -59,9 +59,9 @@ const upgradeBanner = computed(() => {
       />
       <VerticalNavLink
         :item="{
-          title: 'Typography',
+          title: 'Products',
           icon: 'mdi-alpha-t-box-outline',
-          to: '/typography',
+          to: '/products',
         }"
       />
     </template>
