@@ -5,6 +5,7 @@
       <v-btn
         @click="navigateToProductForm"
         color="primary"
+        rounded
         >Add Warehouse</v-btn
       >
     </v-row>
@@ -28,9 +29,9 @@
           <td>
             <v-btn
               icon
-              @click="removeProduct(index)"
+              @click="viewWarehosue(item.id)"
             >
-              <v-icon>mdi-delete</v-icon>
+              <v-icon>mdi-eye</v-icon>
             </v-btn>
           </td>
         </tr>
@@ -58,14 +59,12 @@ const fetchwarehouses = async () => {
   }
 }
 
-// State and methods for dialog management
 const navigateToProductForm = () => {
   router.push('/warehouses/new')
 }
 
-// Remove warehouse by index
-const removeProduct = (index: Number) => {
-  //   warehouses.value.splice(index, 1)
+const viewWarehosue = (id: number) => {
+  router.push(`/warehouses/${id}`)
 }
 
 onMounted(() => {

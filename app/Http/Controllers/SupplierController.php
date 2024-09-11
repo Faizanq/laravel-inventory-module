@@ -36,7 +36,7 @@ class SupplierController extends Controller
 
     public function show($id)
     {
-        $Supplier = $this->service->getSupplier($id);
+        $Supplier = $this->service->getSupplier(['id' => $id]);
         return $this->success($Supplier, 'Supplier retrieved successfully.');
     }
 

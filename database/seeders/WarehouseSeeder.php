@@ -17,6 +17,6 @@ class WarehouseSeeder extends Seeder
         ];
 
         DB::table('warehouses')->truncate();
-        DB::table('warehouses')->truncate();
+        DB::table('warehouses')->insert($warehouses);
     }
 }

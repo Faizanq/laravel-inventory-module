@@ -5,6 +5,7 @@
       <v-btn
         @click="navigateToProductForm"
         color="primary"
+        rounded
         >Add Product</v-btn
       >
     </v-row>
@@ -14,6 +15,7 @@
       <thead>
         <tr>
           <th class="text-left">Name</th>
+          <th class="text-left">SKU</th>
           <th class="text-left">Qty</th>
           <th class="text-left">Actions</th>
         </tr>
@@ -24,13 +26,14 @@
           :key="item.id"
         >
           <td>{{ item.name }}</td>
-          <td>{{ item.qty }}</td>
+          <td>{{ item.sku }}</td>
+          <td>{{ item.quantity_in_stock }}</td>
           <td>
             <v-btn
               icon
-              @click="removeProduct(index)"
+              @click="viewProduct(item.id)"
             >
-              <v-icon>mdi-delete</v-icon>
+              <v-icon>mdi-eye</v-icon>
             </v-btn>
           </td>
         </tr>
@@ -63,9 +66,8 @@ const navigateToProductForm = () => {
   router.push('/products/new')
 }
 
-// Remove product by index
-const removeProduct = (index: Number) => {
-  //   products.value.splice(index, 1)
+const viewProduct = (id: number) => {
+  router.push(`/products/${id}`)
 }
 
 onMounted(() => {

@@ -11,11 +11,11 @@ class SupplierSeeder extends Seeder
     {
         // Sample suppliers data
         $suppliers = [
-            ['name' => 'Supplier One', 'contact_information' => 'supplier1@example.com'],
-            ['name' => 'Supplier Two', 'contact_information' => 'supplier2@example.com'],
+            ['name' => 'Supplier One', 'email' => 'supplier1@example.com'],
+            ['name' => 'Supplier Two', 'email' => 'supplier2@example.com'],
         ];
 
         DB::table('min_stock_levels')->truncate();
-        DB::table('suppliers')->truncate();
+        DB::table('suppliers')->insert($suppliers);
     }
 }

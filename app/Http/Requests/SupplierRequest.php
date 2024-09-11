@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class SupplierRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,19 +26,16 @@ class ProductRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'sku' => 'required|string|max:255',
-            'quantity_in_stock' => 'required|integer',
+            'email' => 'required|email',
         ];
 
-        $id = $this->route('product');
+        // $id = $this->route('supplier');
 
-        if ($id) {
-            // Editing an existing product
-            $rules['sku'] .= '|unique:products,sku,' . $id;
-        } else {
-            // Adding a new product
-            $rules['sku'] .= '|unique:products,sku';
-        }
+        // if ($id) {
+        //     $rules['email'] .= '|unique:suppliers,email,' . $id;
+        // } else {
+        //     $rules['email'] .= '|unique:suppliers,email';
+        // }
 
         return $rules;
     }
@@ -50,11 +47,6 @@ class ProductRequest extends FormRequest
      */
     public function attributes()
     {
-        return [
-            'name' => 'product name',
-            'sku' => 'SKU',
-            'quantity_in_stock' => 'quantity in stock',
-            'supplier_id' => 'supplier',
-        ];
+        return [];
     }
 }

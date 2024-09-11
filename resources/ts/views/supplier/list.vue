@@ -5,6 +5,7 @@
       <v-btn
         @click="navigateToSupplierForm"
         color="primary"
+        rounded
         >Add Supplier</v-btn
       >
     </v-row>
@@ -28,9 +29,9 @@
           <td>
             <v-btn
               icon
-              @click="removeSupplier(index)"
+              @click="viewSupplier(item.id)"
             >
-              <v-icon>mdi-delete</v-icon>
+              <v-icon>mdi-eye</v-icon>
             </v-btn>
           </td>
         </tr>
@@ -66,6 +67,10 @@ const navigateToSupplierForm = () => {
 // Remove supplier by index
 const removeSupplier = (index: Number) => {
   //   suppliers.value.splice(index, 1)
+}
+
+const viewSupplier = (id: number) => {
+  router.push(`/suppliers/${id}`)
 }
 
 onMounted(() => {

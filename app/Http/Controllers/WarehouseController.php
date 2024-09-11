@@ -36,7 +36,7 @@ class WarehouseController extends Controller
 
     public function show($id)
     {
-        $Warehouse = $this->service->getWarehouse($id);
+        $Warehouse = $this->service->getWarehouse(['id' => $id]);
         return $this->success($Warehouse, 'Warehouse retrieved successfully.');
     }
 

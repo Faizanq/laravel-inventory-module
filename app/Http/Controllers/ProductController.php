@@ -36,7 +36,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = $this->service->getProduct($id);
+        $product = $this->service->getProduct(['id' => $id]);
         return $this->success($product, 'Product retrieved successfully.');
     }
 

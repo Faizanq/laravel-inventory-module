@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useTheme } from 'vuetify'
 
-import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
 import upgradeBannerDark from '@images/pro/upgrade-banner-dark.png'
 import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
@@ -51,17 +50,33 @@ const upgradeBanner = computed(() => {
         }"
       />
 
-      <!-- 👉 Menu -->
-      <VerticalNavSectionTitle
+      <!-- Menu -->
+      <!-- <VerticalNavSectionTitle
         :item="{
-          heading: 'User Interface',
+          heading: 'Meny',
+        }"
+      /> -->
+      <VerticalNavLink
+        :item="{
+          title: 'Supplier',
+          icon: 'mdi-store',
+          to: '/suppliers',
         }"
       />
+
       <VerticalNavLink
         :item="{
           title: 'Products',
-          icon: 'mdi-alpha-t-box-outline',
+          icon: 'mdi-package-variant',
           to: '/products',
+        }"
+      />
+
+      <VerticalNavLink
+        :item="{
+          title: 'Warehouses',
+          icon: 'mdi-warehouse',
+          to: '/warehouses',
         }"
       />
     </template>

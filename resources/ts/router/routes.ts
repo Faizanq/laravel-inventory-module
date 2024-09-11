@@ -1,6 +1,10 @@
 import LoginPage from '@/views/auth/Login.vue'
 import ProductForm from '@/views/product/form.vue'
 import ProductList from '@/views/product/list.vue'
+import SupplierForm from '@/views/supplier/form.vue'
+import SupplierList from '@/views/supplier/list.vue'
+import WarehouserForm from '@/views/warehouse/form.vue'
+import WarehouserList from '@/views/warehouse/list.vue'
 
 const routes = [
   {
@@ -33,6 +37,34 @@ const routes = [
       {
         path: 'products/new',
         component: () => ProductForm,
+      },
+      {
+        path: 'products/:id',
+        component: () => ProductForm,
+      },
+      {
+        path: 'warehouses',
+        component: () => WarehouserList,
+      },
+      {
+        path: 'warehouses/new',
+        component: () => WarehouserForm,
+      },
+      {
+        path: 'warehouses/:id',
+        component: () => WarehouserForm,
+      },
+      {
+        path: 'suppliers',
+        component: () => SupplierList,
+      },
+      {
+        path: 'suppliers/new',
+        component: () => SupplierForm,
+      },
+      {
+        path: 'suppliers/:id',
+        component: () => SupplierForm,
       },
     ],
   },

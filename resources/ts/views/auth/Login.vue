@@ -28,7 +28,6 @@
                 :rules="authRules.password"
                 label="Password"
                 type="password"
-                class="mt-5"
                 required
               ></v-text-field>
             </v-card-text>
@@ -39,6 +38,8 @@
                 :disabled="!valid"
                 color="primary"
                 type="submit"
+                variant="flat"
+                block
                 >Login</v-btn
               >
             </v-card-actions>
@@ -80,7 +81,6 @@ export default defineComponent({
           const response = await axiosServices.post('/api/login', form)
           console.log(response, 'login response')
           if (response.data.token) {
-            debugger
             localStorage.setItem('auth_token', response.data.token)
             router.push('/dashboard')
           } else {

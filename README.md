@@ -18,6 +18,7 @@ npm install
 cp .env.example .env
 php artisan key:generate
 php artisan passport:install
+php artisan passport:client --personal
 php artisan optimize
 php artisan migrate
 php artisan db:seed
@@ -27,5 +28,5 @@ npm run dev
 
 ## Admin Credential
 Email: admin@test.com
-Password: 123123
+Password: 123123    
 

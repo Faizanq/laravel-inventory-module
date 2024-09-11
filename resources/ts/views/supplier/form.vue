@@ -18,19 +18,26 @@
               <v-text-field
                 v-model="form.email"
                 :rules="rules.email"
-                label="SKU"
+                label="Email"
+                class="my-5"
                 required
               ></v-text-field>
-              <v-btn
-                @click="submit"
-                color="primary"
-                >Save Supplier</v-btn
-              >
-              <v-btn
-                @click="cancel"
-                color="secondary"
-                >Cancel</v-btn
-              >
+              <div class="button-group">
+
+                <v-btn
+                  @click="submit"
+                  color="primary"
+                  rounded
+                  >Save</v-btn
+                >
+                <v-btn
+                  @click="cancel"
+                  color="primary"
+                  variant="outlined"
+                  rounded
+                  >Back</v-btn
+                >
+              </div>
             </v-form>
           </v-card-text>
         </v-card>
@@ -42,23 +49,29 @@
 <script lang="ts">
 import axiosServices from '@/axios'
 import { ADD_SUPPLIER_RULES } from '@/validation/rules'
-import { defineComponent, nextTick, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, nextTick, reactive, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
-  data() {
-    return {
-      valid: false,
-      form: {
-        name: '',
-        email: '',
-      },
-      rules: ADD_SUPPLIER_RULES,
-    }
-  },
   setup() {
+    const route = useRoute()
     const router = useRouter()
     const formRef = ref(null)
+    const form = reactive({
+      id: null,
+      name: '',
+      email: '',
+    })
+    const rules = ADD_SUPPLIER_RULES
+
+    const fetchSupplierDetails = async (id: number) => {
+      try {
+        const response = await axiosServices.get(`/api/suppliers/${id}`)
+        Object.assign(form, response.data)
+      } catch (error) {
+        console.log('Error fetching supplier details:', error)
+      }
+    }
 
     const submit = async () => {
       await nextTick()
@@ -66,11 +79,14 @@ export default defineComponent({
       if (formRef.value) {
         const isValid = await formRef.value.validate()
 
-        if (isValid) {
+        if (isValid?.valid) {
           try {
-            const response = await axiosServices.post('/api/Suppliers', formRef.value.form)
-            console.log('Supplier saved:', response.data)
-            router.push('/Suppliers')
+            if (form.id) {
+              await axiosServices.put(`/api/suppliers/${form.id}`, form)
+            } else {
+              await axiosServices.post('/api/suppliers', form)
+            }
+            router.push('/suppliers')
           } catch (error) {
             console.error('Error saving Supplier:', error)
           }
@@ -81,11 +97,20 @@ export default defineComponent({
     }
 
     const cancel = () => {
-      router.push('/Suppliers')
+      router.push('/suppliers')
     }
+
+    onMounted(() => {
+      const id = route.params.id as string
+      if (id) {
+        fetchSupplierDetails(Number(id))
+      }
+    })
 
     return {
       formRef,
+      form,
+      rules,
       submit,
       cancel,
     }

@@ -28,16 +28,21 @@
                 type="number"
                 required
               ></v-text-field>
-              <v-btn
-                @click="submit"
-                color="primary"
-                >Save Product</v-btn
-              >
-              <v-btn
-                @click="cancel"
-                color="secondary"
-                >Cancel</v-btn
-              >
+              <div class="button-group">
+                <v-btn
+                  @click="submit"
+                  color="primary"
+                  rounded
+                  >Save</v-btn
+                >
+                <v-btn
+                  @click="cancel"
+                  color="primary"
+                  variant="outlined"
+                  rounded
+                  >Back</v-btn
+                >
+              </div>
             </v-form>
           </v-card-text>
         </v-card>
@@ -50,28 +55,43 @@
 import axiosServices from '@/axios'
 import { ADD_PRODUCT_RULES } from '@/validation/rules'
 import { defineComponent, nextTick, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
   setup() {
+    const route = useRoute()
     const router = useRouter()
-    const formRef = ref(null) // Assuming you have a form ref
+    const formRef = ref(null)
     const form = reactive({
+      id: null,
       name: '',
-      price: 0,
+      sku: '',
+      quantity_in_stock: 0,
       // Add other form fields
     })
     const rules = ADD_PRODUCT_RULES
+
+    const fetchProductDetails = async (id: number) => {
+      try {
+        const response = await axiosServices.get(`/api/products/${id}`)
+        Object.assign(form, response.data)
+      } catch (error) {
+        console.log('Error fetching product details:', error)
+      }
+    }
+
     const submit = async () => {
       await nextTick()
 
       if (formRef.value) {
         const isValid = await formRef.value.validate()
-        debugger
         if (isValid && isValid.valid) {
           try {
-            const response = await axiosServices.post('/api/products', form)
-            console.log('Product saved:', response.data)
+            if (form.id) {
+              await axiosServices.put(`/api/products/${form.id}`, form)
+            } else {
+              await axiosServices.post('/api/products', form)
+            }
             router.push('/products')
           } catch (error) {
             console.log('Error saving product:', error)
@@ -85,6 +105,13 @@ export default defineComponent({
     const cancel = () => {
       router.push('/products')
     }
+
+    onMounted(() => {
+      const id = route.params.id as string
+      if (id) {
+        fetchProductDetails(Number(id))
+      }
+    })
 
     return {
       formRef,
