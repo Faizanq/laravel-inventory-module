@@ -53,7 +53,6 @@ class StockTransferService
             \DB::beginTransaction();
             $record = $this->model->forceCreate($formattedParams);
             $this->updateWarehouseStock($record);
-            $this->updateStockTransferHistory($record);
             \DB::commit();
             return $record;
         } catch (\Exception $e) {
@@ -71,67 +70,60 @@ class StockTransferService
                 'warehouse_id' => $record->from_warehouse_id
             ])->first();
 
-            if ($fromStockRecord && (int)$fromStockRecord->available_stock <=  $record->quantity) {
+            if ($fromStockRecord && (int)$fromStockRecord->available_stock >=  $record->quantity) {
                 $fromStockRecord->decrement('available_stock', $record->quantity);
             } else {
-                throw new \Exception('No stock availible to transfer.Please Check stock');
+                throw new \Exception('No stock available to transfer. Please check stock');
             }
+
+            $historyParams = [
+                'product_id' => $record->product_id,
+                'warehouse_id' => $record->from_warehouse_id,
+                'type' => 'STOCK_OUT',
+                'quantity_change' => $record->quantity,
+                'stock_transfer_id' => $record->id,
+                'quantity' => $fromStockRecord->available_stock,
+            ];
+            $this->history->forceCreate($historyParams);
+        }
+
+        if (!empty($record->from_supplier_id)) {
+            $historyParams = [
+                'product_id' => $record->product_id,
+                'supplier_id' => $record->from_supplier_id,
+                'type' => 'STOCK_OUT',
+                'quantity_change' => $record->quantity,
+                'stock_transfer_id' => $record->id,
+            ];
+            $this->history->forceCreate($historyParams);
         }
 
         $toStockRecord = $this->warehouseStock->where([
             'product_id' => $record->product_id,
             'warehouse_id' => $record->to_warehouse_id
         ])->first();
+
         if ($toStockRecord) {
             $toStockRecord->increment('available_stock', $record->quantity);
         } else {
-            $this->warehouseStock->forceCreate([
+            $toStockRecord = $this->warehouseStock->forceCreate([
                 'warehouse_id' => $record->to_warehouse_id,
                 'product_id' => $record->product_id,
-                'available_stock' => $record->qty,
+                'available_stock' => $record->quantity,
             ]);
         }
+
+        $historyParams = [
+            'product_id' => $record->product_id,
+            'warehouse_id' => $record->to_warehouse_id,
+            'type' => 'STOCK_IN',
+            'quantity_change' => $record->quantity,
+            'quantity' => $toStockRecord->available_stock,
+            'stock_transfer_id' => $record->id,
+        ];
+        $this->history->forceCreate($historyParams);
     }
 
-    public function updateStockTransferHistory($record)
-    {
-        if (!empty($record->from_warehouse_id)) {
-
-            $params =
-                [
-                    'product_id' => $record->product_id,
-                    'warehouse_id' => $record->from_warehouse_id,
-                    'type' => 'STOCK_OUT',
-                    'quantity_change' => $record->quantity,
-                    'stock_transfer_id' => $record->id
-                ];
-            $this->history->forceCreate($params);
-        }
-        if (!empty($record->from_supplier_id)) {
-
-            $params =
-                [
-                    'product_id' => $record->product_id,
-                    'supplier_id' => $record->from_supplier_id,
-                    'type' => 'STOCK_OUT',
-                    'quantity_change' => $record->quantity,
-                    'stock_transfer_id' => $record->id
-                ];
-            $this->history->forceCreate($params);
-        }
-        if (!empty($record->to_warehouse_id)) {
-
-            $params =
-                [
-                    'product_id' => $record->product_id,
-                    'warehouse_id' => $record->to_warehouse_id,
-                    'type' => 'STOCK_IN',
-                    'quantity_change' => $record->quantity,
-                    'stock_transfer_id' => $record->id,
-                ];
-            $this->history->forceCreate($params);
-        }
-    }
 
     public function deleteStockTransfer($params)
     {
