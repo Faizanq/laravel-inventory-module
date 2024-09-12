@@ -27,7 +27,10 @@
           <td>{{ item.name }}</td>
           <td>{{ item.location }}</td>
           <td>
-            <v-icon @click="viewWarehouse(item.id)">mdi-eye</v-icon>
+            <div class="button-group">
+              <v-icon @click="viewWarehouse(item.id)">mdi-eye</v-icon>
+              <v-icon @click="viewStockHistory(item.id)">mdi-history</v-icon>
+            </div>
           </td>
         </tr>
         <tr v-if="!warehouses">
@@ -86,6 +89,10 @@ const navigateToProductForm = () => {
 
 const viewWarehouse = (id: number) => {
   router.push(`/warehouses/${id}`)
+}
+
+const viewStockHistory = (id: number) => {
+  router.push(`/warehouses/stock-transfer/${id}`)
 }
 
 onMounted(() => {

@@ -41,20 +41,27 @@ const upgradeBanner = computed(() => {
     </template>
 
     <template #vertical-nav-content>
-      <VerticalNavLink
+      <!-- <VerticalNavLink
         :item="{
           title: 'Dashboard',
           icon: 'mdi-home-outline',
           to: '/dashboard',
         }"
-      />
+      /> -->
 
       <!-- Menu -->
       <!-- <VerticalNavSectionTitle
         :item="{
-          heading: 'Meny',
+          heading: 'Dashboard',
         }"
       /> -->
+      <VerticalNavLink
+        :item="{
+          title: 'Products',
+          icon: 'mdi-package-variant',
+          to: '/products',
+        }"
+      />
 
       <VerticalNavLink
         :item="{
@@ -66,25 +73,17 @@ const upgradeBanner = computed(() => {
 
       <VerticalNavLink
         :item="{
-          title: 'Stock Transfer',
-          icon: 'mdi-exchange',
-          to: '/stock-transfer',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Products',
-          icon: 'mdi-package-variant',
-          to: '/products',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
           title: 'Supplier',
           icon: 'mdi-store',
           to: '/suppliers',
+        }"
+      />
+
+      <VerticalNavLink
+        :item="{
+          title: 'Stock Transfer',
+          icon: 'mdi-exchange',
+          to: '/stock-transfer',
         }"
       />
     </template>

@@ -23,6 +23,11 @@ class StockTransferHistory extends Model
         return $this->belongsTo(Warehouse::class, 'warehouse_id')->withTrashed();
     }
 
+    public function stockTransfer()
+    {
+        return $this->belongsTo(StockTransfer::class, 'stock_transfer_id')->withTrashed();
+    }
+
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id')->withTrashed();

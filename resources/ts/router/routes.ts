@@ -6,6 +6,7 @@ import StockTransferList from '@/views/stock-transfer/list.vue'
 import SupplierForm from '@/views/supplier/form.vue'
 import SupplierList from '@/views/supplier/list.vue'
 import WarehouserForm from '@/views/warehouse/form.vue'
+import WarehouseHistory from '@/views/warehouse/history.vue'
 import WarehouserList from '@/views/warehouse/list.vue'
 //resources/ts/views/stock-transfer/form.vue
 const routes = [
@@ -51,6 +52,10 @@ const routes = [
       {
         path: 'warehouses/new',
         component: () => WarehouserForm,
+      },
+      {
+        path: 'warehouses/stock-transfer/:id',
+        component: () => WarehouseHistory,
       },
       {
         path: 'warehouses/:id',

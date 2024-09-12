@@ -56,7 +56,7 @@ const handleNavScroll = (evt: Event) => {
     <div class="nav-header">
       <slot name="nav-header">
         <RouterLink
-          to="/dashboard"
+          to="/products"
           class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
         >
           <div

@@ -82,7 +82,7 @@ export default defineComponent({
           console.log(response, 'login response')
           if (response.data.token) {
             localStorage.setItem('auth_token', response.data.token)
-            router.push('/dashboard')
+            router.push('/products')
           } else {
             errorMessage.value = 'Login failed. Please check your credentials.'
           }

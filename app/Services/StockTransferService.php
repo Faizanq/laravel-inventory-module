@@ -83,6 +83,7 @@ class StockTransferService
                 'quantity_change' => $record->quantity,
                 'stock_transfer_id' => $record->id,
                 'quantity' => $fromStockRecord->available_stock,
+                'transfer_date' => $record->transfer_date
             ];
             $this->history->forceCreate($historyParams);
         }
@@ -95,6 +96,7 @@ class StockTransferService
                 'quantity_change' => $record->quantity,
                 'quantity' => null,
                 'stock_transfer_id' => $record->id,
+                'transfer_date' => $record->transfer_date
             ];
             $this->history->forceCreate($historyParams);
         }
@@ -121,13 +123,15 @@ class StockTransferService
             'quantity_change' => $record->quantity,
             'quantity' => $toStockRecord->available_stock,
             'stock_transfer_id' => $record->id,
+            'transfer_date' => $record->transfer_date
         ];
         $this->history->forceCreate($historyParams);
     }
 
     public function getWareHouseStockHistory($params)
     {
-        return $this->history->where($params)->with(['product', 'fromWarehouse', 'toWarehouse', 'supplier'])->latest();
+        unset($params['page']);
+        return $this->history->where($params)->with(['product', 'stockTransfer.fromWarehouse', 'stockTransfer.supplier', 'stockTransfer.toWarehouse', 'warehouse', 'supplier'])->latest();
     }
 
     public function deleteStockTransfer($params)
