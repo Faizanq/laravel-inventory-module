@@ -66,6 +66,14 @@ const upgradeBanner = computed(() => {
 
       <VerticalNavLink
         :item="{
+          title: 'Stock Transfer',
+          icon: 'mdi-exchange',
+          to: '/stock-transfer',
+        }"
+      />
+
+      <VerticalNavLink
+        :item="{
           title: 'Products',
           icon: 'mdi-package-variant',
           to: '/products',
