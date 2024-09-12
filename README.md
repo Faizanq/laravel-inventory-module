@@ -31,4 +31,4 @@ Email: admin@test.com
 Password: 123123    
 
 ## Demo Video
-You can watch the demo video [here](Faizan - Laravel Inventory Module Demo.mp4).
+You can watch the demo video [here](https://github.com/Faizanq/laravel-inventory-module/blob/master/Faizan%20-%20Laravel%20Inventory%20Module%20Demo.mp4).
