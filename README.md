@@ -30,3 +30,5 @@ npm run dev
 Email: admin@test.com
 Password: 123123    
 
+## Demo Video
+You can watch the demo video [here](Faizan - Laravel Inventory Module Demo.mp4).
