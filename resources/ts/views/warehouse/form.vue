@@ -28,12 +28,13 @@
                 </v-col>
               </v-row>
 
-              <h4>Product Stock Detail</h4>
+              <h4 class="my-5">Product Stock Detail</h4>
 
               <v-row
                 v-for="(warehouseProduct, index) in warehouseProducts"
                 :key="index"
                 class="align-center"
+                :class="{ 'danger-row': warehouseProduct.available_stock < warehouseProduct.min_stock }"
               >
                 <v-col>
                   <v-select
