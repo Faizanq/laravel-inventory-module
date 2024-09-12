@@ -13,7 +13,7 @@ return new class extends Migration
     {
         if (!Schema::hasColumn('stock_transfer_history', 'quantity')) {
             Schema::table('stock_transfer_history', function (Blueprint $table) {
-                $table->integer('quantity')->after('quantity_change');
+                $table->integer('quantity')->nullable()->after('quantity_change');
             });
         }
     }

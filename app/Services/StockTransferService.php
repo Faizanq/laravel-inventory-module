@@ -93,6 +93,7 @@ class StockTransferService
                 'supplier_id' => $record->from_supplier_id,
                 'type' => 'STOCK_OUT',
                 'quantity_change' => $record->quantity,
+                'quantity' => null,
                 'stock_transfer_id' => $record->id,
             ];
             $this->history->forceCreate($historyParams);
