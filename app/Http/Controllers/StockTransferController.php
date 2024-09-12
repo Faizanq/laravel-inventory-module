@@ -24,7 +24,7 @@ class StockTransferController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $StockTransfer = $this->service->addUpdateStockTransfer($request->all());
+        $StockTransfer = $this->service->addStockTransfer($request->all());
         return $this->success($StockTransfer, 'StockTransfer created successfully.', 201);
     }
 
@@ -34,12 +34,6 @@ class StockTransferController extends Controller
         return $this->success($StockTransfer);
     }
 
-    public function update(Request $request, $id): JsonResponse
-    {
-
-        $StockTransfer = $this->service->addUpdateStockTransfer($request->all(), $id);
-        return $this->success($StockTransfer, 'StockTransfer updated successfully.');
-    }
 
     public function destroy($id)
     {

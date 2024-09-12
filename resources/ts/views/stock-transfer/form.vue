@@ -15,27 +15,12 @@
                   sm="6"
                 >
                   <v-text-field
-                    v-model="form.date_time"
+                    v-model="form.transfer_date"
                     label="Date and Time"
                     type="datetime-local"
                     :rules="[rules.required]"
                     required
                   ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  sm="6"
-                >
-                  <v-select
-                    v-model="form.product_id"
-                    :items="productList"
-                    item-title="name"
-                    item-value="id"
-                    label="Select Product"
-                    :rules="[rules.required]"
-                    required
-                  ></v-select>
                 </v-col>
 
                 <v-col
@@ -93,8 +78,23 @@
                   cols="12"
                   sm="6"
                 >
+                  <v-select
+                    v-model="form.product_id"
+                    :items="productList"
+                    item-title="name"
+                    item-value="id"
+                    label="Select Product"
+                    :rules="[rules.required]"
+                    required
+                  ></v-select>
+                </v-col>
+
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
                   <v-text-field
-                    v-model="form.qty"
+                    v-model="form.quantity"
                     label="Quantity"
                     type="number"
                     :rules="[rules.required]"
@@ -127,7 +127,8 @@
     </v-row>
   </v-container>
 </template>
-<script>
+<script lang="ts">
+import axiosServices from '@/axios'
 import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -136,13 +137,13 @@ export default defineComponent({
     const router = useRouter()
     const formRef = ref(null)
     const form = reactive({
-      date_time: '',
+      transfer_date: null,
       product_id: null,
       is_from_supplier: false,
       from_supplier_id: null,
       from_warehouse_id: null,
       to_warehouse_id: null,
-      qty: 0,
+      quantity: 0,
     })
     const productList = reactive([])
     const supplierList = reactive([])
@@ -156,7 +157,7 @@ export default defineComponent({
       if (formRef.value) {
         const isValid = await formRef.value.validate()
         if (isValid?.valid) {
-          await axiosServices.post('/api/warehouses', form)
+          await axiosServices.post('/api/stock-transfers', form)
           router.push('/stock-transfer')
         } else {
           console.log('Form is invalid')

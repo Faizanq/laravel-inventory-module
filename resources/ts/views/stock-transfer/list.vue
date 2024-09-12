@@ -17,8 +17,9 @@
           <th class="text-left">Type</th>
           <th class="text-left">Product</th>
           <th class="text-left">Qty</th>
-          <th class="text-left">From</th>
-          <th class="text-left">To</th>
+          <th class="text-left">From Supplier</th>
+          <th class="text-left">From Warehouse</th>
+          <th class="text-left">To Warehouse</th>
         </tr>
       </thead>
       <tbody>
@@ -26,12 +27,13 @@
           v-for="(item, index) in deliveries"
           :key="item.id"
         >
-          <td>{{ item.tranfer_date }}</td>
+          <td>{{ formatDateTime(item.transfer_date) }}</td>
           <td>{{ item.type }}</td>
-          <td>{{ item.product }}</td>
+          <td>{{ item.product ? `${item.product.name} [${item.product.sku}]` : '' }}</td>
           <td>{{ item.quantity }}</td>
-          <td>{{ item.from }}</td>
-          <td>{{ item.to }}</td>
+          <td>{{ item.supplier ? item.supplier.name : '-' }}</td>
+          <td>{{ item.from_warehouse ? item.from_warehouse.name : '-' }}</td>
+          <td>{{ item.to_warehouse ? item.to_warehouse.name : '' }}</td>
         </tr>
       </tbody>
     </v-table>
@@ -40,18 +42,19 @@
 
 <script setup lang="ts">
 import axiosServices from '@/axios'
+import { formatDateTime } from '@/helper'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const deliveries = ref([])
 const router = useRouter()
 
-const fetchDeliveies = async () => {
+const fetchDeliveries = async () => {
   try {
     const response = await axiosServices.get('/api/stock-transfers')
     deliveries.value = response.data
   } catch (error) {
-    console.error('Failed to fetch stock ransfer:', error)
+    console.error('Failed to fetch stock transfers:', error)
   }
 }
 
@@ -60,7 +63,7 @@ const navigateToStockTransferForm = () => {
 }
 
 onMounted(() => {
-  fetchDeliveies()
+  fetchDeliveries()
 })
 </script>
 
