@@ -55,11 +55,12 @@ const upgradeBanner = computed(() => {
           heading: 'Meny',
         }"
       /> -->
+
       <VerticalNavLink
         :item="{
-          title: 'Supplier',
-          icon: 'mdi-store',
-          to: '/suppliers',
+          title: 'Warehouses',
+          icon: 'mdi-warehouse',
+          to: '/warehouses',
         }"
       />
 
@@ -73,9 +74,9 @@ const upgradeBanner = computed(() => {
 
       <VerticalNavLink
         :item="{
-          title: 'Warehouses',
-          icon: 'mdi-warehouse',
-          to: '/warehouses',
+          title: 'Supplier',
+          icon: 'mdi-store',
+          to: '/suppliers',
         }"
       />
     </template>

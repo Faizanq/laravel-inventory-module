@@ -11,9 +11,9 @@ class ProductSeeder extends Seeder
     {
         // Sample products data
         $products = [
-            ['name' => 'Product One', 'sku' => 'P001', 'quantity_in_stock' => 100,],
-            ['name' => 'Product Two', 'sku' => 'P002', 'quantity_in_stock' => 50],
-            ['name' => 'Product Three', 'sku' => 'P003', 'quantity_in_stock' => 150,],
+            ['name' => 'Product One', 'sku' => 'P001'],
+            ['name' => 'Product Two', 'sku' => 'P002'],
+            ['name' => 'Product Three', 'sku' => 'P003'],
         ];
         DB::table('products')->truncate();
         DB::table('products')->insert($products);

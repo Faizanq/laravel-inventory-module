@@ -9,20 +9,63 @@
               v-model="valid"
               ref="formRef"
             >
-              <v-text-field
-                v-model="form.name"
-                :rules="rules.name"
-                label="Warehouse Name"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.location"
-                :rules="rules.location"
-                label="Location"
-                required
-              ></v-text-field>
-              <div class="button-group">
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model="form.name"
+                    :rules="rules.name"
+                    label="Warehouse Name"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    v-model="form.location"
+                    :rules="rules.location"
+                    label="Location"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col md="12">
+                  <h4>Product Stock Detail</h4>
+                </v-col>
 
+                <v-col md="12">
+                  <v-row v-for="(product, index) in productList">
+                    <v-col>
+                      <v-text-field
+                        v-model="warehouseProducts[index].product_id"
+                        type="hidden"
+                        read-only
+                      ></v-text-field>
+                      <v-text-field
+                        :value="`${product.name} [${product.sku}]`"
+                        type="text"
+                        label="Product"
+                        read-only
+                      ></v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                        v-model="warehouseProducts[index].product_id"
+                        type="number"
+                        label="Availible Qty"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-text-field
+                        v-model="warehouseProducts[index].product_id"
+                        type="number"
+                        label="Min Required Qty"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+
+              <div class="button-group">
                 <v-btn
                   @click="submit"
                   color="primary"
@@ -52,6 +95,7 @@ import { defineComponent, nextTick, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
+  name: 'WarehouseDetailForm',
   setup() {
     const route = useRoute()
     const form = reactive({
@@ -61,12 +105,25 @@ export default defineComponent({
     })
     const rules = ADD_WAREHOUSE_RULES
     const router = useRouter()
+    const productList = reactive([])
+    const warehouseProducts = reactive([])
     const formRef = ref(null)
 
     const fetchWarehouseDetails = async (id: number) => {
       try {
         const response = await axiosServices.get(`/api/warehouses/${id}`)
         Object.assign(form, response.data)
+      } catch (error) {
+        console.log('Error fetching warehouse details:', error)
+      }
+    }
+
+    const fetchProductList = async () => {
+      try {
+        const response = await axiosServices.get(`/api/product-list`)
+        productList.length = 0
+        productList.push(...response.data)
+        console.log(response, 'response')
       } catch (error) {
         console.log('Error fetching warehouse details:', error)
       }
@@ -100,6 +157,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      fetchProductList()
       const id = route.params.id as string
       if (id) {
         fetchWarehouseDetails(Number(id))
@@ -109,6 +167,8 @@ export default defineComponent({
     return {
       formRef,
       rules,
+      productList,
+      warehouseProducts,
       form,
       submit,
       cancel,

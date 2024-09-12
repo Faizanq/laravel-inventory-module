@@ -24,8 +24,8 @@ class ProductController extends Controller
 
     public function list(Request $request)
     {
-        $products = $this->service->getAllProducts($request->all())->get();
-        return $this->success($products, 'Products retrieved successfully.');
+        $products = $this->service->getAllProducts($request->all(), ['id', 'name', 'sku'])->get();
+        return $this->success($products);
     }
 
     public function store(ProductRequest $request): JsonResponse
@@ -37,7 +37,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = $this->service->getProduct(['id' => $id]);
-        return $this->success($product, 'Product retrieved successfully.');
+        return $this->success($product);
     }
 
     public function update(ProductRequest $request, $id): JsonResponse

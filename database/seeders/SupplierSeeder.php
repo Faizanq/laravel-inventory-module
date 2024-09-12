@@ -15,7 +15,7 @@ class SupplierSeeder extends Seeder
             ['name' => 'Supplier Two', 'email' => 'supplier2@example.com'],
         ];
 
-        DB::table('min_stock_levels')->truncate();
+        DB::table('warehouse_stocks')->truncate();
         DB::table('suppliers')->insert($suppliers);
     }
 }

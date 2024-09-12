@@ -25,4 +25,9 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('/products', ProductController::class);
     Route::apiResource('/warehouses', WarehouseController::class);
     Route::apiResource('/suppliers', SupplierController::class);
+
+    //dropdown-list
+    Route::get('/product-list', [ProductController::class, 'list']);
+    Route::get('/warehouse-list', [WarehouseController::class, 'list']);
+    Route::get('/supplier-list', [SupplierController::class, 'list']);
 });

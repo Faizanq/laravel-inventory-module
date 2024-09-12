@@ -4,16 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMinStockLevelsTable extends Migration
+class CreateWarehouseStockTable extends Migration
 {
     public function up()
     {
-        if (!Schema::hasTable('min_stock_levels')) {
-            Schema::create('min_stock_levels', function (Blueprint $table) {
+        if (!Schema::hasTable('warehouse_stocks')) {
+            Schema::create('warehouse_stocks', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('product_id');
                 $table->foreignId('warehouse_id');
-                $table->integer('min_stock');
+                $table->integer('min_stock')->default(0);
+                $table->integer('available_stock');
                 $table->timestamps();
             });
         }
@@ -21,6 +22,6 @@ class CreateMinStockLevelsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('min_stock_levels');
+        Schema::dropIfExists('warehouse_stocks');
     }
 }

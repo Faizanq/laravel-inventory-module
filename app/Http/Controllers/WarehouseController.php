@@ -24,8 +24,8 @@ class WarehouseController extends Controller
 
     public function list(Request $request)
     {
-        $Warehouses = $this->service->getAllWarehouses($request->all())->get();
-        return $this->success($Warehouses, 'Warehouses retrieved successfully.');
+        $Warehouses = $this->service->getAllWarehouses($request->all(), ['id', 'name'])->get();
+        return $this->success($Warehouses);
     }
 
     public function store(WarehouseRequest $request): JsonResponse
@@ -37,7 +37,7 @@ class WarehouseController extends Controller
     public function show($id)
     {
         $Warehouse = $this->service->getWarehouse(['id' => $id]);
-        return $this->success($Warehouse, 'Warehouse retrieved successfully.');
+        return $this->success($Warehouse);
     }
 
     public function update(WarehouseRequest $request, $id): JsonResponse

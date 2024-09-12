@@ -24,8 +24,8 @@ class SupplierController extends Controller
 
     public function list(Request $request)
     {
-        $Suppliers = $this->service->getAllSuppliers($request->all())->get();
-        return $this->success($Suppliers, 'Suppliers retrieved successfully.');
+        $Suppliers = $this->service->getAllSuppliers($request->all(), ['id', 'name'])->get();
+        return $this->success($Suppliers);
     }
 
     public function store(SupplierRequest $request): JsonResponse
@@ -37,7 +37,7 @@ class SupplierController extends Controller
     public function show($id)
     {
         $Supplier = $this->service->getSupplier(['id' => $id]);
-        return $this->success($Supplier, 'Supplier retrieved successfully.');
+        return $this->success($Supplier);
     }
 
     public function update(SupplierRequest $request, $id): JsonResponse
