@@ -42,7 +42,7 @@ class StockTransferService
 
     public function getStockTransfer($params)
     {
-        return $this->model->where($params)->with([])->first();
+        return $this->model->where($params)->with(['product', 'fromWarehouse', 'toWarehouse', 'supplier'])->first();
     }
 
 
@@ -125,6 +125,10 @@ class StockTransferService
         $this->history->forceCreate($historyParams);
     }
 
+    public function getWareHouseStockHistory($params)
+    {
+        return $this->history->where($params)->with(['product', 'fromWarehouse', 'toWarehouse', 'supplier'])->latest();
+    }
 
     public function deleteStockTransfer($params)
     {

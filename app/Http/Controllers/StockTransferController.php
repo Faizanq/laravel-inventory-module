@@ -28,6 +28,11 @@ class StockTransferController extends Controller
         return $this->success($StockTransfer, 'StockTransfer created successfully.', 201);
     }
 
+    public function warehouseStockHistory(Request $request): JsonResponse
+    {
+        return $this->service->getWareHouseStockHistory($request->all())->paginate();
+    }
+
     public function show($id)
     {
         $StockTransfer = $this->service->getStockTransfer(['id' => $id]);

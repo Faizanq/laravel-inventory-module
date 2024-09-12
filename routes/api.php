@@ -32,4 +32,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/product-list', [ProductController::class, 'list']);
     Route::get('/warehouse-list', [WarehouseController::class, 'list']);
     Route::get('/supplier-list', [SupplierController::class, 'list']);
+
+    //warehouseStockHistory
+    Route::get('/warehouse/stock-transfers', [StockTransferController::class, 'warehouseStockHistory']);
 });

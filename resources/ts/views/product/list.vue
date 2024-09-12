@@ -29,8 +29,23 @@
             <v-icon @click="viewProduct(item.id)">mdi-eye</v-icon>
           </td>
         </tr>
+        <tr v-if="products.length === 0">
+          <td
+            colspan="3"
+            class="text-center"
+          >
+            No products available
+          </td>
+        </tr>
       </tbody>
     </v-table>
+
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+      @input="fetchProducts"
+      class="mt-4"
+    ></v-pagination>
   </v-container>
 </template>
 
@@ -40,12 +55,23 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const products = ref([])
+const currentPage = ref(1)
+const perPage = 15
+const totalRecords = ref(0)
+const totalPages = ref(0)
+
 const router = useRouter()
 
 const fetchProducts = async () => {
   try {
-    const response = await axiosServices.get('/api/products')
+    const response = await axiosServices.get('/api/products', {
+      params: {
+        page: currentPage.value,
+      },
+    })
     products.value = response.data
+    totalRecords.value = response.total
+    totalPages.value = Math.ceil(totalRecords.value / perPage)
   } catch (error) {
     console.error('Failed to fetch products:', error)
   }

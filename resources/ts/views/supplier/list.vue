@@ -10,7 +10,6 @@
       >
     </v-row>
 
-    <!-- Using v-table with a fixed header -->
     <v-table fixed-header>
       <thead>
         <tr>
@@ -33,8 +32,23 @@
             </div>
           </td>
         </tr>
+        <tr v-if="suppliers.length === 0">
+          <td
+            colspan="3"
+            class="text-center"
+          >
+            No suppliers available
+          </td>
+        </tr>
       </tbody>
     </v-table>
+
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+      @input="fetchSuppliers"
+      class="mt-4"
+    ></v-pagination>
   </v-container>
 </template>
 
@@ -44,12 +58,23 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const suppliers = ref([])
+const currentPage = ref(1)
+const perPage = 15
+const totalRecords = ref(0)
+const totalPages = ref(0)
+
 const router = useRouter()
 
-const fetchsuppliers = async () => {
+const fetchSuppliers = async () => {
   try {
-    const response = await axiosServices.get('/api/suppliers')
+    const response = await axiosServices.get('/api/suppliers', {
+      params: {
+        page: currentPage.value,
+      },
+    })
     suppliers.value = response.data
+    totalRecords.value = response.total
+    totalPages.value = Math.ceil(totalRecords.value / perPage)
   } catch (error) {
     console.error('Failed to fetch suppliers:', error)
   }
@@ -59,12 +84,12 @@ const navigateToSupplierForm = () => {
   router.push('/suppliers/new')
 }
 
-const removeSupplier = async (id: Number) => {
+const removeSupplier = async (id: number) => {
   try {
     await axiosServices.delete(`/api/suppliers/${id}`)
-    fetchsuppliers()
+    fetchSuppliers() // Refresh the list after deletion
   } catch (error) {
-    console.error('Failed to delete suppliers:', error)
+    console.error('Failed to delete supplier:', error)
   }
 }
 
@@ -73,12 +98,17 @@ const viewSupplier = (id: number) => {
 }
 
 onMounted(() => {
-  fetchsuppliers()
+  fetchSuppliers()
 })
 </script>
 
 <style scoped>
 .v-row {
   margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
 }
 </style>

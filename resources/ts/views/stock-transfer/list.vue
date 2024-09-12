@@ -35,8 +35,23 @@
           <td>{{ item.from_warehouse ? item.from_warehouse.name : '-' }}</td>
           <td>{{ item.to_warehouse ? item.to_warehouse.name : '' }}</td>
         </tr>
+        <tr v-if="deliveries.length === 0">
+          <td
+            colspan="7"
+            class="text-center"
+          >
+            No deliveries available
+          </td>
+        </tr>
       </tbody>
     </v-table>
+
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+      @input="fetchDeliveries"
+      class="mt-4"
+    ></v-pagination>
   </v-container>
 </template>
 
@@ -47,12 +62,23 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const deliveries = ref([])
+const currentPage = ref(1)
+const perPage = 15
+const totalRecords = ref(0)
+const totalPages = ref(0)
+
 const router = useRouter()
 
 const fetchDeliveries = async () => {
   try {
-    const response = await axiosServices.get('/api/stock-transfers')
+    const response = await axiosServices.get('/api/stock-transfers', {
+      params: {
+        page: currentPage.value,
+      },
+    })
     deliveries.value = response.data
+    totalRecords.value = response.total
+    totalPages.value = Math.ceil(totalRecords.value / perPage)
   } catch (error) {
     console.error('Failed to fetch stock transfers:', error)
   }

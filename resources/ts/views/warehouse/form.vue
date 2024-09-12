@@ -90,7 +90,7 @@
 <script lang="ts">
 import axiosServices from '@/axios'
 import { ADD_WAREHOUSE_RULES } from '@/validation/rules'
-import { defineComponent, nextTick, ref } from 'vue'
+import { defineComponent, nextTick, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -114,6 +114,7 @@ export default defineComponent({
       },
     ])
     const formRef = ref(null)
+
     const fetchWarehouseDetails = async (id: number) => {
       try {
         const response = await axiosServices.get(`/api/warehouses/${id}`)
@@ -146,7 +147,6 @@ export default defineComponent({
         productList.length = 0
         productList.push(...response.data)
         initializeWarehouseProducts()
-        console.log(response, 'response')
       } catch (error) {
         console.log('Error fetching warehouse details:', error)
       }
