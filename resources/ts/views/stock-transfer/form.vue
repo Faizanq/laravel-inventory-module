@@ -151,14 +151,57 @@ export default defineComponent({
       required: value => !!value || 'Required.',
     }
 
-    const submitForm = () => {
-      // Handle form submission logic
-      console.log('Form submitted:', form.value)
+    const submitForm = async () => {
+      await nextTick()
+      if (formRef.value) {
+        const isValid = await formRef.value.validate()
+        if (isValid?.valid) {
+          await axiosServices.post('/api/warehouses', form)
+          router.push('/stock-transfer')
+        } else {
+          console.log('Form is invalid')
+        }
+      }
     }
 
     const cancel = () => {
       router.push('/stock-transfer')
     }
+
+    const fetchProductList = async () => {
+      try {
+        const response = await axiosServices.get(`/api/product-list`)
+        productList.length = 0
+        productList.push(...response.data)
+      } catch (error) {
+        console.log('Error fetching product list:', error)
+      }
+    }
+
+    const fetchWarehouseList = async () => {
+      try {
+        const response = await axiosServices.get(`/api/warehouse-list`)
+        warehouseList.length = 0
+        warehouseList.push(...response.data)
+      } catch (error) {
+        console.log('Error fetching warehouse list:', error)
+      }
+    }
+    const fetchSupplierList = async () => {
+      try {
+        const response = await axiosServices.get(`/api/supplier-list`)
+        supplierList.length = 0
+        supplierList.push(...response.data)
+      } catch (error) {
+        console.log('Error fetching supplier list:', error)
+      }
+    }
+
+    onMounted(() => {
+      fetchSupplierList()
+      fetchProductList()
+      fetchWarehouseList()
+    })
 
     return {
       formRef,

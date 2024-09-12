@@ -18,7 +18,7 @@ class StockTransferController extends Controller
 
     public function index(Request $request)
     {
-        return $this->service->getAllStockTransfer($request->all())->paginate();
+        return $this->service->getAllStockTransfers($request->all())->paginate();
     }
 
 
@@ -43,7 +43,7 @@ class StockTransferController extends Controller
 
     public function destroy($id)
     {
-        $deleted = $this->service->deleteTransfer(['id' => $id]);
-        return $this->success(null, 'StockTransfer deleted successfully.');
+        $deleted = $this->service->deleteStockTransfer(['id' => $id]);
+        return $this->success(null, 'StockTransfer Record deleted successfully.');
     }
 }

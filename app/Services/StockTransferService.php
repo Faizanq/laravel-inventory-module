@@ -37,7 +37,7 @@ class StockTransferService
             $query->select($select);
         }
 
-        return $query;
+        return $query->orderBy('transfer_date', 'desc');
     }
 
     public function getStockTransfer($params)
