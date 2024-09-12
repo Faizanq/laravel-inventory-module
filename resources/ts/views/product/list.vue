@@ -10,13 +10,11 @@
       >
     </v-row>
 
-    <!-- Using v-table with a fixed header -->
     <v-table fixed-header>
       <thead>
         <tr>
           <th class="text-left">Name</th>
           <th class="text-left">SKU</th>
-          <th class="text-left">Qty</th>
           <th class="text-left">Actions</th>
         </tr>
       </thead>
@@ -27,14 +25,8 @@
         >
           <td>{{ item.name }}</td>
           <td>{{ item.sku }}</td>
-          <td>{{ item.quantity_in_stock }}</td>
           <td>
-            <v-btn
-              icon
-              @click="viewProduct(item.id)"
-            >
-              <v-icon>mdi-eye</v-icon>
-            </v-btn>
+            <v-icon @click="viewProduct(item.id)">mdi-eye</v-icon>
           </td>
         </tr>
       </tbody>
@@ -47,11 +39,9 @@ import axiosServices from '@/axios'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-// Reactive state for products
 const products = ref([])
 const router = useRouter()
 
-// Fetch product data from API
 const fetchProducts = async () => {
   try {
     const response = await axiosServices.get('/api/products')
@@ -61,7 +51,6 @@ const fetchProducts = async () => {
   }
 }
 
-// State and methods for dialog management
 const navigateToProductForm = () => {
   router.push('/products/new')
 }

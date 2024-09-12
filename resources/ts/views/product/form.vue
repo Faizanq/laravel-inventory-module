@@ -9,25 +9,25 @@
               v-model="valid"
               ref="formRef"
             >
-              <v-text-field
-                v-model="form.name"
-                :rules="rules.name"
-                label="Product Name"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.sku"
-                :rules="rules.sku"
-                label="SKU"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.quantity_in_stock"
-                :rules="rules.quantity_in_stock"
-                label="Quantity in Stock"
-                type="number"
-                required
-              ></v-text-field>
+              <v-row>
+                <v-col md="6">
+                  <v-text-field
+                    v-model="form.name"
+                    :rules="rules.name"
+                    label="Product Name"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col md="6">
+                  <v-text-field
+                    v-model="form.sku"
+                    :rules="rules.sku"
+                    label="SKU"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
               <div class="button-group">
                 <v-btn
                   @click="submit"
@@ -67,7 +67,6 @@ export default defineComponent({
       name: '',
       sku: '',
       quantity_in_stock: 0,
-      // Add other form fields
     })
     const rules = ADD_PRODUCT_RULES
 

@@ -30,7 +30,7 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request): JsonResponse
     {
-        $product = $this->service->addUpdateProduct($request->validated());
+        $product = $this->service->addUpdateProduct($request->all());
         return $this->success($product, 'Product created successfully.', 201);
     }
 
@@ -43,13 +43,13 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id): JsonResponse
     {
 
-        $product = $this->service->addUpdateProduct($request->validated(), $id);
+        $product = $this->service->addUpdateProduct($request->all(), $id);
         return $this->success($product, 'Product updated successfully.');
     }
 
     public function destroy($id)
     {
-        $deleted = $this->service->deleteProduct($id);
-        return $this->successResponse(null, 'Product deleted successfully.');
+        $deleted = $this->service->deleteProduct(['id' => $id]);
+        return $this->success(null, 'Product deleted successfully.');
     }
 }

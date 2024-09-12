@@ -27,12 +27,10 @@
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
           <td>
-            <v-btn
-              icon
-              @click="viewSupplier(item.id)"
-            >
-              <v-icon>mdi-eye</v-icon>
-            </v-btn>
+            <div class="button-group">
+              <v-icon @click="viewSupplier(item.id)">mdi-eye</v-icon>
+              <v-icon @click="removeSupplier(item.id)">mdi-delete</v-icon>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -45,11 +43,9 @@ import axiosServices from '@/axios'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-// Reactive state for suppliers
 const suppliers = ref([])
 const router = useRouter()
 
-// Fetch supplier data from API
 const fetchsuppliers = async () => {
   try {
     const response = await axiosServices.get('/api/suppliers')
@@ -59,14 +55,17 @@ const fetchsuppliers = async () => {
   }
 }
 
-// State and methods for dialog management
 const navigateToSupplierForm = () => {
   router.push('/suppliers/new')
 }
 
-// Remove supplier by index
-const removeSupplier = (index: Number) => {
-  //   suppliers.value.splice(index, 1)
+const removeSupplier = async (id: Number) => {
+  try {
+    await axiosServices.delete(`/api/suppliers/${id}`)
+    fetchsuppliers()
+  } catch (error) {
+    console.error('Failed to delete suppliers:', error)
+  }
 }
 
 const viewSupplier = (id: number) => {

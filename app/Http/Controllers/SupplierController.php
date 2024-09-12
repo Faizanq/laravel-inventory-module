@@ -49,7 +49,7 @@ class SupplierController extends Controller
 
     public function destroy($id)
     {
-        $deleted = $this->service->deleteSupplier($id);
-        return $this->successResponse(null, 'Supplier deleted successfully.');
+        $deleted = $this->service->deleteSupplier(['id' => $id]);
+        return $this->success(null, 'Supplier deleted successfully.');
     }
 }

@@ -42,16 +42,20 @@ class ProductService
 
     public function addUpdateProduct($params, $id = null)
     {
+        $formattedParams = $this->formatParams($params);
+
         if (!empty($id)) {
-            $detail = $this->getProduct(['id' => $id]);
-            if ($detail) {
-                $detail->update($this->formatParams($params));
-                return $detail;
+            $record = $this->getProduct(['id' => $id]);
+            if ($record) {
+                $record->update($formattedParams);
+            } else {
+                throw new \Exception('Product not found');
             }
-            throw new \Exception('Product not found');
         } else {
-            $product = $this->model->forceCreate($this->formatParams($params));
+            $record = $this->model->forceCreate($formattedParams);
         }
+
+        return $record;
     }
 
     public function deleteProduct($params)
@@ -61,7 +65,7 @@ class ProductService
 
     private function formatParams($params)
     {
-        $keysToInclude = ['name', 'sku', 'quantity_in_stock', 'supplier_id'];
+        $keysToInclude = ['name', 'sku'];
         foreach ($keysToInclude as $key) {
             if (isset($params[$key])) {
                 $formatted[$key] = trim($params[$key]);

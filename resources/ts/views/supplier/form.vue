@@ -9,21 +9,26 @@
               v-model="valid"
               ref="formRef"
             >
-              <v-text-field
-                v-model="form.name"
-                :rules="rules.name"
-                label="Supplier Name"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="form.email"
-                :rules="rules.email"
-                label="Email"
-                class="my-5"
-                required
-              ></v-text-field>
-              <div class="button-group">
+              <v-row>
+                <v-col md="6">
+                  <v-text-field
+                    v-model="form.name"
+                    :rules="rules.name"
+                    label="Supplier Name"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col md="6">
+                  <v-text-field
+                    v-model="form.email"
+                    :rules="rules.email"
+                    label="Email"
+                    required
+                  ></v-text-field>
+                </v-col>
+              </v-row>
 
+              <div class="button-group">
                 <v-btn
                   @click="submit"
                   color="primary"

@@ -27,12 +27,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.location }}</td>
           <td>
-            <v-btn
-              icon
-              @click="viewWarehosue(item.id)"
-            >
-              <v-icon>mdi-eye</v-icon>
-            </v-btn>
+            <v-icon @click="viewWarehosue(item.id)">mdi-eye</v-icon>
           </td>
         </tr>
       </tbody>
@@ -45,11 +40,9 @@ import axiosServices from '@/axios'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-// Reactive state for warehouses
 const warehouses = ref([])
 const router = useRouter()
 
-// Fetch warehouse data from API
 const fetchwarehouses = async () => {
   try {
     const response = await axiosServices.get('/api/warehouses')

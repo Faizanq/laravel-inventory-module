@@ -30,7 +30,7 @@ class WarehouseController extends Controller
 
     public function store(WarehouseRequest $request): JsonResponse
     {
-        $Warehouse = $this->service->addUpdateWarehouse($request->validated());
+        $Warehouse = $this->service->addUpdateWarehouse($request->all());
         return $this->success($Warehouse, 'Warehouse created successfully.', 201);
     }
 
@@ -43,13 +43,13 @@ class WarehouseController extends Controller
     public function update(WarehouseRequest $request, $id): JsonResponse
     {
 
-        $Warehouse = $this->service->addUpdateWarehouse($request->validated(), $id);
+        $Warehouse = $this->service->addUpdateWarehouse($request->all(), $id);
         return $this->success($Warehouse, 'Warehouse updated successfully.');
     }
 
     public function destroy($id)
     {
-        $deleted = $this->service->deleteWarehouse($id);
-        return $this->successResponse(null, 'Warehouse deleted successfully.');
+        $deleted = $this->service->deleteWarehouse(['id' => $id]);
+        return $this->success(null, 'Warehouse deleted successfully.');
     }
 }

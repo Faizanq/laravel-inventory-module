@@ -27,7 +27,6 @@ class ProductRequest extends FormRequest
         $rules = [
             'name' => 'required|string|max:255',
             'sku' => 'required|string|max:255',
-            'quantity_in_stock' => 'required|integer',
         ];
 
         $id = $this->route('product');
@@ -53,8 +52,6 @@ class ProductRequest extends FormRequest
         return [
             'name' => 'product name',
             'sku' => 'SKU',
-            'quantity_in_stock' => 'quantity in stock',
-            'supplier_id' => 'supplier',
         ];
     }
 }

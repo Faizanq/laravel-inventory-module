@@ -3,24 +3,27 @@
 namespace App\Services;
 
 use App\Models\Warehouse;
+use App\Models\WarehouseStock;
 
 class WarehouseService
 {
     private $model;
+    private $warehouseStock;
 
     /**
      * Instantiate a new instance.
      *
      * @return void
      */
-    public function __construct(Warehouse $model)
+    public function __construct(Warehouse $model, WarehouseStock $warehouseStock)
     {
         $this->model = $model;
+        $this->warehouseStock = $warehouseStock;
     }
 
     public function getAllWarehouses($params, $select = [])
     {
-        $query = $this->model->query()->with([]);
+        $query = $this->model->query()->with(['stocks']);
         unset($params['page']);
 
         if (!empty($params)) {
@@ -36,23 +39,51 @@ class WarehouseService
 
     public function getWarehouse($params)
     {
-        return $this->model->where($params)->with([])->first();
+        return $this->model->where($params)->with(['stocks'])->first();
     }
 
 
     public function addUpdateWarehouse($params, $id = null)
     {
+        $formattedParams = $this->formatParams($params);
+
         if (!empty($id)) {
-            $detail = $this->getWarehouse(['id' => $id]);
-            if ($detail) {
-                $detail->update($this->formatParams($params));
-                return $detail;
+            $record = $this->getWarehouse(['id' => $id]);
+            if ($record) {
+                $record->update($formattedParams);
+            } else {
+                throw new \Exception('Warehouse not found');
             }
-            throw new \Exception('Warehouse not found');
         } else {
-            return $this->model->forceCreate($this->formatParams($params));
+            $record = $this->model->forceCreate($formattedParams);
+        }
+        $this->updateWarehouseStock($params['stocks'], $record);
+
+        return $record;
+    }
+
+
+
+    public function updateWarehouseStock(array $stocks, $warehouse)
+    {
+        foreach ($stocks as $stockData) {
+            $stockRecord = $this->warehouseStock->where([
+                'product_id' => $stockData['product_id'],
+                'warehouse_id' => $warehouse->id
+            ])->first();
+
+            if ($stockRecord) {
+                $stockRecord->available_stock = $stockData['available_stock'];
+                $stockRecord->min_stock = $stockData['min_stock'];
+                $stockRecord->save();
+            } else {
+                $this->warehouseStock->forceCreate(array_merge($stockData, [
+                    'warehouse_id' => $warehouse->id
+                ]));
+            }
         }
     }
+
 
     public function deleteWarehouse($params)
     {
